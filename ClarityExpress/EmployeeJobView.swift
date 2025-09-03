@@ -1,6 +1,7 @@
 import SwiftUI
 import PhotosUI
 import MapKit
+import FirebaseStorage
 
 struct EmployeeJobView: View {
     @State private var job = Job(vehicle: Vehicle(year: "", make: "", model: "", color: ""))
@@ -30,12 +31,12 @@ struct EmployeeJobView: View {
 
                 Section(header: Text("Before Photos")) {
                     PhotosPicker("Select Photos", selection: $beforeItems, maxSelectionCount: 4, matching: .images)
-                    Text("\(beforeItems.count)/4 selected")
+                    Text("\(job.beforePhotoURLs.count)/4 uploaded")
                 }
 
                 Section(header: Text("After Photos")) {
                     PhotosPicker("Select Photos", selection: $afterItems, maxSelectionCount: 4, matching: .images)
-                    Text("\(afterItems.count)/4 selected")
+                    Text("\(job.afterPhotoURLs.count)/4 uploaded")
                 }
 
                 Section {
@@ -49,8 +50,8 @@ struct EmployeeJobView: View {
             .navigationTitle("Job")
             .tint(Theme.accent)
         }
-        .onChange(of: beforeItems) { _ in loadPhotos(items: beforeItems, storing: &job.beforePhotos) }
-        .onChange(of: afterItems) { _ in loadPhotos(items: afterItems, storing: &job.afterPhotos) }
+        .onChange(of: beforeItems) { _ in uploadPhotos(items: beforeItems, storing: &job.beforePhotoURLs, folder: "before") }
+        .onChange(of: afterItems) { _ in uploadPhotos(items: afterItems, storing: &job.afterPhotoURLs, folder: "after") }
     }
 
     func updateStatus(_ newStatus: JobStatus) {
@@ -75,12 +76,20 @@ struct EmployeeJobView: View {
         }
     }
 
-    func loadPhotos(items: [PhotosPickerItem], storing array: inout [Data]) {
+    func uploadPhotos(items: [PhotosPickerItem], storing array: inout [URL], folder: String) {
         array.removeAll()
         for item in items {
             Task {
                 if let data = try? await item.loadTransferable(type: Data.self) {
-                    array.append(data)
+                    let path = "jobs/\(job.id.uuidString)/\(folder)/\(UUID().uuidString).jpg"
+                    let ref = Storage.storage().reference().child(path)
+                    do {
+                        _ = try await ref.putDataAsync(data)
+                        let url = try await ref.downloadURL()
+                        array.append(url)
+                    } catch {
+                        print("Upload failed: \(error)")
+                    }
                 }
             }
         }

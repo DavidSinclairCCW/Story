@@ -14,7 +14,7 @@ Clarity Express is an on-demand mobile car wash app for iOS.
 - Account management for profile, plan and multiple vehicles.
 - Support tab with direct phone link to customer service (619-733-6995).
 - Plan purchasing is structured for Square (or Stripe) payment integration.
-- Employees sign in to the same app to access a job workflow that updates customers when the detailer is on the way, has arrived, or finished, captures up to four before/after photos, and provides a dispatch call shortcut at 619-510-7939.
+- Employees sign in to the same app to access a job workflow that updates customers when the detailer is on the way, has arrived, or finished, uploads up to four before/after photos to Firebase Storage, and provides a dispatch call shortcut at 619-510-7939.
 - Modern interface with traffic blue accents (#0E518D), silver selection highlights, pill-shaped buttons and animated transitions. The remaining-washes counter rolls down like a slot machine when a wash is requested.
 
 This repository provides a SwiftUI prototype of the interface.

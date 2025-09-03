@@ -46,6 +46,8 @@ struct Job: Identifiable, Codable {
     let id = UUID()
     var vehicle: Vehicle
     var status: JobStatus = .pending
-    var beforePhotos: [Data] = []
-    var afterPhotos: [Data] = []
+    /// Download URLs for before-service photos stored in Firebase Storage
+    var beforePhotoURLs: [URL] = []
+    /// Download URLs for after-service photos stored in Firebase Storage
+    var afterPhotoURLs: [URL] = []
 }
