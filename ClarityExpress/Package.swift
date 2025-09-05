@@ -10,13 +10,15 @@ let package = Package(
         .executable(name: "ClarityExpress", targets: ["ClarityExpress"])
     ],
     dependencies: [
-        .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "10.15.0")
+        .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "10.15.0"),
+        .package(url: "https://github.com/stripe/stripe-ios", from: "24.8.0")
     ],
     targets: [
         .executableTarget(
             name: "ClarityExpress",
             dependencies: [
-                .product(name: "FirebaseStorage", package: "firebase-ios-sdk")
+                .product(name: "FirebaseStorage", package: "firebase-ios-sdk"),
+                .product(name: "StripePaymentSheet", package: "stripe-ios")
             ],
             path: "."
         )

@@ -30,9 +30,21 @@ final class AppState: ObservableObject {
     }
 
     func purchase(plan: Plan) {
-        // Placeholder for Square or Stripe payment integration
-        selectedPlan = plan
-        washesUsed = 0
+        guard let root = UIApplication.shared.connectedScenes
+            .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
+            .first?.rootViewController else {
+                return
+        }
+        StripeManager.shared.startCheckout(from: root) { success in
+            if success {
+                DispatchQueue.main.async {
+                    self.selectedPlan = plan
+                    self.washesUsed = 0
+                }
+            } else {
+                print("Payment canceled or failed")
+            }
+        }
     }
 
     func requestWash() {
