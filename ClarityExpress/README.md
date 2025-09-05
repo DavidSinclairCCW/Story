@@ -5,9 +5,19 @@ Clarity Express is an on-demand mobile car wash app for iOS.
 ## Features
 - Users sign up with personal and vehicle information.
 - Three shareable monthly plans:
-  - **Basic** – $119/mo, 4 washes, foam wash & rinse, air dry, window scrubbing, light road grime removal.
-  - **Premium** – $149/mo, includes Basic plus microfiber mitt scrub and heavy dirt & grime removal.
-  - **Elite** – $199/mo, includes Premium plus towel dry and ceramic wax.
+
+| Plan | Washes per Month | Price per Wash | Monthly Price |
+| --- | --- | --- | --- |
+| **Basic** | 1 | \$45.00 | \$45.00 |
+|  | 2 | \$40.00 | \$80.00 |
+|  | 4 | \$29.75 | \$119.00 |
+| **Premium** | 1 | \$50.00 | \$50.00 |
+|  | 2 | \$45.00 | \$90.00 |
+|  | 4 | \$37.25 | \$149.00 |
+| **Elite** | 1 | \$60.00 | \$60.00 |
+|  | 2 | \$55.00 | \$110.00 |
+|  | 4 | \$49.75 | \$199.00 |
+
 - Request a wash within a two-hour window and choose the vehicle.
 - Home view shows remaining washes for the current billing cycle.
 - Wash requests email details (user, plan, vehicle) to support@claritycarwashing.com.
