@@ -20,7 +20,8 @@ let package = Package(
                 .product(name: "FirebaseStorage", package: "firebase-ios-sdk"),
                 .product(name: "StripePaymentSheet", package: "stripe-ios")
             ],
-            path: "."
+            path: ".",
+            exclude: ["README.md"]
         )
     ]
 )
