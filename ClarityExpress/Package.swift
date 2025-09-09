@@ -13,6 +13,9 @@ stripeDependency.append(
 stripeProducts.append(
     .product(name: "StripePaymentSheet", package: "stripe-ios")
 )
+stripeProducts.append(
+    .product(name: "Stripe3DS2", package: "stripe-ios")
+)
 #endif
 
 let package = Package(
