@@ -50,8 +50,16 @@ struct EmployeeJobView: View {
             .navigationTitle("Job")
             .tint(Theme.accent)
         }
-        .onChange(of: beforeItems) { _ in uploadPhotos(items: beforeItems, storing: &job.beforePhotoURLs, folder: "before") }
-        .onChange(of: afterItems) { _ in uploadPhotos(items: afterItems, storing: &job.afterPhotoURLs, folder: "after") }
+        .onChange(of: beforeItems) { _ in
+            Task {
+                job.beforePhotoURLs = await uploadPhotos(items: beforeItems, folder: "before")
+            }
+        }
+        .onChange(of: afterItems) { _ in
+            Task {
+                job.afterPhotoURLs = await uploadPhotos(items: afterItems, folder: "after")
+            }
+        }
     }
 
     func updateStatus(_ newStatus: JobStatus) {
@@ -76,23 +84,22 @@ struct EmployeeJobView: View {
         }
     }
 
-    func uploadPhotos(items: [PhotosPickerItem], storing array: inout [URL], folder: String) {
-        array.removeAll()
+    func uploadPhotos(items: [PhotosPickerItem], folder: String) async -> [URL] {
+        var uploaded: [URL] = []
         for item in items {
-            Task {
-                if let data = try? await item.loadTransferable(type: Data.self) {
-                    let path = "jobs/\(job.id.uuidString)/\(folder)/\(UUID().uuidString).jpg"
-                    let ref = Storage.storage().reference().child(path)
-                    do {
-                        _ = try await ref.putDataAsync(data)
-                        let url = try await ref.downloadURL()
-                        array.append(url)
-                    } catch {
-                        print("Upload failed: \(error)")
-                    }
+            if let data = try? await item.loadTransferable(type: Data.self) {
+                let path = "jobs/\(job.id.uuidString)/\(folder)/\(UUID().uuidString).jpg"
+                let ref = Storage.storage().reference().child(path)
+                do {
+                    _ = try await ref.putDataAsync(data)
+                    let url = try await ref.downloadURL()
+                    uploaded.append(url)
+                } catch {
+                    print("Upload failed: \(error)")
                 }
             }
         }
+        return uploaded
     }
 
     func callDispatch() {
