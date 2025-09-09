@@ -1,4 +1,5 @@
 import Foundation
+#if canImport(UIKit)
 import StripePaymentSheet
 import UIKit
 
@@ -50,3 +51,12 @@ final class StripeManager {
         task.resume()
     }
 }
+#else
+final class StripeManager {
+    static let shared = StripeManager()
+    private init() {}
+    func startCheckout(from controller: Any?, completion: @escaping (Bool) -> Void) {
+        completion(false)
+    }
+}
+#endif

@@ -1,5 +1,7 @@
 import SwiftUI
+#if canImport(UIKit)
 import UIKit
+#endif
 
 @main
 struct ClarityExpressApp: App {
@@ -30,6 +32,7 @@ final class AppState: ObservableObject {
     }
 
     func purchase(plan: Plan) {
+        #if canImport(UIKit)
         guard let root = UIApplication.shared.connectedScenes
             .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
             .first?.rootViewController else {
@@ -45,6 +48,9 @@ final class AppState: ObservableObject {
                 print("Payment canceled or failed")
             }
         }
+        #else
+        print("Stripe checkout unavailable on this platform")
+        #endif
     }
 
     func requestWash() {
@@ -55,9 +61,13 @@ final class AppState: ObservableObject {
         let body = "User: \(user.firstName) \(user.lastName)\nPlan: \(plan.name)\nVehicle: \(vehicle.description)"
         let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let urlString = "mailto:support@claritycarwashing.com?subject=\(subject)&body=\(encodedBody)"
+        #if canImport(UIKit)
         if let url = URL(string: urlString) {
             UIApplication.shared.open(url)
         }
+        #else
+        print("Would send email: \(urlString)")
+        #endif
         washesUsed += 1
     }
 }
