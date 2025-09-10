@@ -46,8 +46,4 @@ struct Job: Identifiable, Codable {
     let id = UUID()
     var vehicle: Vehicle
     var status: JobStatus = .pending
-    /// Raw data for before-service photos stored locally
-    var beforePhotos: [Data] = []
-    /// Raw data for after-service photos stored locally
-    var afterPhotos: [Data] = []
 }
