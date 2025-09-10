@@ -22,9 +22,12 @@ struct SupportView: View {
         .tint(Theme.accent)
     }
 
+    @MainActor
     private func callSupport() {
         if let url = URL(string: "tel://\(phoneNumber)"), UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url)
+            DispatchQueue.main.async {
+                UIApplication.shared.open(url)
+            }
         }
     }
 }

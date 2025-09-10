@@ -45,10 +45,13 @@ struct EmployeeJobView: View {
         // TODO: integrate messaging to inform the user of status
     }
 
+    @MainActor
     func callDispatch() {
         #if canImport(UIKit)
         if let url = URL(string: "tel://6195107939") {
-            UIApplication.shared.open(url)
+            DispatchQueue.main.async {
+                UIApplication.shared.open(url)
+            }
         }
         #else
         print("Dispatch: 619-510-7939")

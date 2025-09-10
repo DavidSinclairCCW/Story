@@ -20,6 +20,7 @@ struct ClarityExpressApp: App {
     }
 }
 
+@MainActor
 final class AppState: ObservableObject {
     @Published var user: User = User()
     @Published var selectedVehicleIndex: Int = 0
@@ -46,7 +47,9 @@ final class AppState: ObservableObject {
         let urlString = "mailto:support@claritycarwashing.com?subject=\(subject)&body=\(encodedBody)"
         #if canImport(UIKit)
         if let url = URL(string: urlString) {
-            UIApplication.shared.open(url)
+            DispatchQueue.main.async {
+                UIApplication.shared.open(url)
+            }
         }
         #else
         print("Would send email: \(urlString)")
