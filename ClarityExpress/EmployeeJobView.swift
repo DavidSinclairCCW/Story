@@ -48,8 +48,11 @@ struct EmployeeJobView: View {
     @MainActor
     func callDispatch() {
         #if canImport(UIKit)
-        if let url = URL(string: "tel://6195107939") {
+        if let url = URL(string: "tel://6195107939"),
+           UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
+        } else {
+            print("Could not open dispatch number")
         }
         #else
         print("Dispatch: 619-510-7939")
