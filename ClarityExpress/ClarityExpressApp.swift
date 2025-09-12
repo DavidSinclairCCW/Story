@@ -46,8 +46,10 @@ final class AppState: ObservableObject {
         let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let urlString = "mailto:support@claritycarwashing.com?subject=\(subject)&body=\(encodedBody)"
         #if canImport(UIKit)
-        if let url = URL(string: urlString) {
+        if let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
+        } else {
+            print("Could not open email URL: \(urlString)")
         }
         #else
         print("Would send email: \(urlString)")
