@@ -47,9 +47,7 @@ final class AppState: ObservableObject {
         let urlString = "mailto:support@claritycarwashing.com?subject=\(subject)&body=\(encodedBody)"
         #if canImport(UIKit)
         if let url = URL(string: urlString) {
-            DispatchQueue.main.async {
-                UIApplication.shared.open(url)
-            }
+            UIApplication.shared.open(url)
         }
         #else
         print("Would send email: \(urlString)")

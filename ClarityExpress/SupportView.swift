@@ -25,9 +25,7 @@ struct SupportView: View {
     @MainActor
     private func callSupport() {
         if let url = URL(string: "tel://\(phoneNumber)"), UIApplication.shared.canOpenURL(url) {
-            DispatchQueue.main.async {
-                UIApplication.shared.open(url)
-            }
+            UIApplication.shared.open(url)
         }
     }
 }
